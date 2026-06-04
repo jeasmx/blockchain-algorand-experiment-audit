@@ -1,7 +1,7 @@
 from algokit_utils import AlgorandClient, AlgoAmount, AssetCreateParams
 
 def main():
-    print("🚀 Creating your first asset...")
+    print("🚀 Creating your asset...")
 
     algorand = AlgorandClient.default_localnet()
 

@@ -8,6 +8,8 @@ function App() {
   const [collisions, setCollisions] = useState("");
   const [timestamp, setTimestamp] = useState("");
 
+  const [capturedExperiment, setCapturedExperiment] = useState<any>(null);
+
   const handleSubmit = () => {
     const experiment = {
       experimentId,
@@ -18,27 +20,75 @@ function App() {
     };
 
     console.log("Experiment to register:", experiment);
+
+    setCapturedExperiment(experiment);
+
     alert("Experiment data captured successfully!");
   };
 
   return (
     <main className="app">
       <section className="card">
-        <h1>Experimental Results<br />Audit System</h1>
+        <h1>
+          Experimental Results
+          <br />
+          Audit System
+        </h1>
 
         <p className="subtitle">
-          Register experimental metadata and verify integrity through blockchain.
+          Register experimental metadata and verify integrity through
+          blockchain.
         </p>
 
         <div className="form">
-          <input placeholder="Experiment ID" value={experimentId} onChange={(e) => setExperimentId(e.target.value)} />
-          <input placeholder="Results Hash" value={resultsHash} onChange={(e) => setResultsHash(e.target.value)} />
-          <input type="number" placeholder="Throughput" value={throughput} onChange={(e) => setThroughput(e.target.value)} />
-          <input type="number" placeholder="Collisions" value={collisions} onChange={(e) => setCollisions(e.target.value)} />
-          <input type="datetime-local" value={timestamp} onChange={(e) => setTimestamp(e.target.value)} />
+          <input
+            type="text"
+            placeholder="Experiment ID"
+            value={experimentId}
+            onChange={(e) => setExperimentId(e.target.value)}
+          />
 
-          <button onClick={handleSubmit}>Register Experiment</button>
+          <input
+            type="text"
+            placeholder="Results Hash"
+            value={resultsHash}
+            onChange={(e) => setResultsHash(e.target.value)}
+          />
+
+          <input
+            type="number"
+            placeholder="Throughput"
+            value={throughput}
+            onChange={(e) => setThroughput(e.target.value)}
+          />
+
+          <input
+            type="number"
+            placeholder="Collisions"
+            value={collisions}
+            onChange={(e) => setCollisions(e.target.value)}
+          />
+
+          <input
+            type="datetime-local"
+            value={timestamp}
+            onChange={(e) => setTimestamp(e.target.value)}
+          />
+
+          <button onClick={handleSubmit}>
+            Register Experiment
+          </button>
         </div>
+
+        {capturedExperiment && (
+          <section className="preview">
+            <h2>Captured Experiment Data</h2>
+
+            <pre>
+              {JSON.stringify(capturedExperiment, null, 2)}
+            </pre>
+          </section>
+        )}
       </section>
     </main>
   );

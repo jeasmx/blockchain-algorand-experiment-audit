@@ -63,3 +63,23 @@ button {
 button:hover {
   opacity: 0.9;
 }
+
+.preview {
+  margin-top: 2rem;
+  text-align: left;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid #475569;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.preview h2 {
+  margin-top: 0;
+  color: #f8fafc;
+}
+
+.preview pre {
+  white-space: pre-wrap;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
