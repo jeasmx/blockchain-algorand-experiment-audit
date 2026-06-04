@@ -1,22 +1,83 @@
+import sys
+from pathlib import Path
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from algokit_utils import AlgorandClient, AlgoAmount
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(ROOT_DIR / "smart_contracts" / "artifacts" / "experiment_audit"))
+
+from experiment_audit_client import ExperimentAuditClient  # noqa: E402
+
+
+APP_ID = 1065  # Cambias por el App ID real
 
 app = Flask(__name__)
 CORS(app)
+
+
+def get_client() -> ExperimentAuditClient:
+    algorand = AlgorandClient.default_localnet()
+
+    account = algorand.account.from_environment(
+        "JOSUE",
+        AlgoAmount(algo=100),
+    )
+
+    return ExperimentAuditClient(
+        algorand=algorand,
+        app_id=APP_ID,
+        default_sender=account.address,
+        default_signer=account.signer,
+    )
 
 
 @app.route("/register-experiment", methods=["POST"])
 def register_experiment():
     data = request.json
 
-    print("Received experiment data:")
-    print(data)
+    experiment_id = data.get("experimentId", "")
+    results_hash = data.get("resultsHash", "")
+    throughput = data.get("throughput", "")
+    collisions = data.get("collisions", "")
+    timestamp = data.get("timestamp", "")
 
-    return jsonify({
-        "status": "success",
-        "message": "Experiment received by backend",
-        "data": data,
-    })
+    client = get_client()
+
+    result = client.send.register_experiment(
+        args=(
+            experiment_id,
+            results_hash,
+            throughput,
+            collisions,
+            timestamp,
+        )
+    )
+
+    return jsonify(
+        {
+            "status": "success",
+            "message": "Experiment registered on Algorand LocalNet",
+            "app_id": APP_ID,
+            "transaction_id": result.tx_ids[0],
+            "experiment": data,
+        }
+    )
+
+
+@app.route("/summary", methods=["GET"])
+def summary():
+    client = get_client()
+
+    result = client.send.get_experiment_summary()
+
+    return jsonify(
+        {
+            "status": "success",
+            "summary": result.abi_return,
+        }
+    )
 
 
 if __name__ == "__main__":
