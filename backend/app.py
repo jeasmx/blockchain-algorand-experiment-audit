@@ -60,7 +60,7 @@ def register_experiment():
     return jsonify(
         {
             "status": "success",
-            "message": "Experiment registered on Algorand LocalNet",
+            "message": "Experiment registered on Algorand TestNet",
             "app_id": APP_ID,
             "transaction_id": result.tx_ids[0],
             "experiment": data,

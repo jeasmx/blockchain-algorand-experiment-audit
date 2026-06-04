@@ -103,3 +103,12 @@ button:hover {
   flex-direction: column;
   gap: 1rem;
 }
+
+.network-banner {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #d1fae5;
+}

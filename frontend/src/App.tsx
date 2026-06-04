@@ -95,6 +95,12 @@ function App() {
           Audit System
         </h1>
 
+        <div className="network-banner">
+          <strong>Network:</strong> Algorand TestNet
+          <br />
+          <strong>Application ID:</strong> 763925996
+        </div>
+
         <p className="subtitle">
           Register experimental metadata and verify integrity through blockchain.
         </p>
