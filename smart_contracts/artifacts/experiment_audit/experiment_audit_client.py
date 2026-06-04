@@ -19,7 +19,7 @@ from algosdk.v2client.models import SimulateTraceConfig
 import algokit_utils
 from algokit_utils import AlgorandClient as _AlgoKitAlgorandClient
 
-_APP_SPEC_JSON = r"""{"arcs": [22, 28], "bareActions": {"call": [], "create": ["NoOp"]}, "methods": [{"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "name"}], "name": "hello", "returns": {"type": "string"}, "events": [], "readonly": false, "recommendations": {}}], "name": "ExperimentAudit", "state": {"keys": {"box": {}, "global": {}, "local": {}}, "maps": {"box": {}, "global": {}, "local": {}}, "schema": {"global": {"bytes": 0, "ints": 0}, "local": {"bytes": 0, "ints": 0}}}, "structs": {}, "byteCode": {"approval": "CzEbQQAYgAQCvs4RNhoAjgEAAQAxGRQxGBBEQgAIMRkUMRgUEEM2GgFJgQBZgQIISwEVEkRXAgCAB0hlbGxvLCBMUEkVFlcGAkxQgAQVH3x1TFCwgQFD", "clear": "C4EBQw=="}, "events": [], "networks": {}, "source": {"approval": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEV4cGVyaW1lbnRBdWRpdChBUkM0Q29udHJhY3QpOgogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IG1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVANQogICAgcHVzaGJ5dGVzIDB4MDJiZWNlMTEgLy8gbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9oZWxsb19yb3V0ZUAzCiAgICBlcnIKCm1haW5faGVsbG9fcm91dGVAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjYKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICYmCiAgICBhc3NlcnQKICAgIGIgaGVsbG8KCm1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVANToKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICAmJgogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmV4cGVyaW1lbnRfYXVkaXQuY29udHJhY3QuRXhwZXJpbWVudEF1ZGl0LmhlbGxvW3JvdXRpbmddKCkgLT4gdm9pZDoKaGVsbG86CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo2CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGR1cAogICAgcHVzaGludCAwCiAgICBleHRyYWN0X3VpbnQxNiAvLyBvbiBlcnJvcjogaW52YWxpZCBhcnJheSBsZW5ndGggaGVhZGVyCiAgICBwdXNoaW50IDIKICAgICsKICAgIGRpZyAxCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQuZHluYW1pY19hcnJheTxhcmM0LnVpbnQ4PgogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjgKICAgIC8vIHJldHVybiAiSGVsbG8sICIgKyBuYW1lCiAgICBwdXNoYnl0ZXMgIkhlbGxvLCAiCiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjYKICAgIC8vIEBhYmltZXRob2QoKQogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIHB1c2hieXRlcyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgcHVzaGludCAxCiAgICByZXR1cm4K", "clear": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMQogICAgcmV0dXJuCg=="}, "sourceInfo": {"approval": {"pcOffsetMethod": "none", "sourceInfo": [{"pc": [44], "errorMessage": "invalid array length header"}, {"pc": [52], "errorMessage": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>"}]}, "clear": {"pcOffsetMethod": "none", "sourceInfo": []}}, "templateVariables": {}}"""
+_APP_SPEC_JSON = r"""{"arcs": [22, 28], "bareActions": {"call": [], "create": ["NoOp"]}, "methods": [{"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "name"}], "name": "hello", "returns": {"type": "string"}, "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "experiment_id"}, {"type": "string", "name": "results_hash"}, {"type": "string", "name": "throughput"}, {"type": "string", "name": "collisions"}, {"type": "string", "name": "timestamp"}], "name": "register_experiment", "returns": {"type": "string"}, "desc": "Registra un experimento.\nActualiza el Global State con el \u00faltimo experimento y adem\u00e1s guarda un registro completo en una Box.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [], "name": "get_experiment_summary", "returns": {"type": "string"}, "desc": "Regresa un resumen simple del \u00faltimo experimento registrado.", "events": [], "readonly": false, "recommendations": {}}, {"actions": {"call": ["NoOp"], "create": []}, "args": [{"type": "string", "name": "experiment_id"}], "name": "get_experiment_box", "returns": {"type": "string"}, "desc": "Consulta el registro completo de un experimento desde Box Storage.", "events": [], "readonly": false, "recommendations": {}}], "name": "ExperimentAudit", "state": {"keys": {"box": {}, "global": {"experiment_counter": {"key": "ZXhwZXJpbWVudF9jb3VudGVy", "keyType": "AVMString", "valueType": "AVMUint64"}, "last_experiment_id": {"key": "bGFzdF9leHBlcmltZW50X2lk", "keyType": "AVMString", "valueType": "AVMString"}, "last_results_hash": {"key": "bGFzdF9yZXN1bHRzX2hhc2g=", "keyType": "AVMString", "valueType": "AVMString"}, "last_throughput": {"key": "bGFzdF90aHJvdWdocHV0", "keyType": "AVMString", "valueType": "AVMString"}, "last_collisions": {"key": "bGFzdF9jb2xsaXNpb25z", "keyType": "AVMString", "valueType": "AVMString"}, "last_author": {"key": "bGFzdF9hdXRob3I=", "keyType": "AVMString", "valueType": "AVMBytes"}, "last_round": {"key": "bGFzdF9yb3VuZA==", "keyType": "AVMString", "valueType": "AVMUint64"}}, "local": {}}, "maps": {"box": {}, "global": {}, "local": {}}, "schema": {"global": {"bytes": 5, "ints": 2}, "local": {"bytes": 0, "ints": 0}}}, "structs": {}, "byteCode": {"approval": "CyADAAIBJgkSZXhwZXJpbWVudF9jb3VudGVyEmxhc3RfZXhwZXJpbWVudF9pZBFsYXN0X3Jlc3VsdHNfaGFzaA9sYXN0X3Rocm91Z2hwdXQPbGFzdF9jb2xsaXNpb25zBBUffHUETk9ORQtsYXN0X2F1dGhvcgpsYXN0X3JvdW5kMRhAAB8oImcpJwZnKicGZyuAATBnJwSAATBnJweAAGcnCCJnMRtBACsxGRREMRhEggQEAr7OEQR+YxpcBCKaRRME7HYg4DYaAI4EAAkAMwEfAYUAMRkUMRgUEEM2GgFJIlkjCEsBFRJEVwIAgAdIZWxsbywgTFBJFRZXBgJMUCcFTFCwJEM2GgFJIlkjCEsBFRJEVwIANhoCSSJZIwhLARUSRFcCADYaA0kiWSMISwEVEkRXAgA2GgRJIlkjCEsBFRJEVwIANhoFSSJZIwhLARUSRFcCACIoZUQkCChMZylLBWcqSwRnK0sDZycESwJnJwcxAGcnCDIGZ4AOZXhwZXJpbWVudF9pZD1LBVCABjtoYXNoPVBPBFCADDt0aHJvdWdocHV0PVBPA1CADDtjb2xsaXNpb25zPVBPAlCACzt0aW1lc3RhbXA9UExQSwG8SL+AGxUffHUAFUV4cGVyaW1lbnQgcmVnaXN0ZXJlZLAkQyIpZUSAD0V4cGVyaW1lbnQgSUQ6IExQgAkgfCBIYXNoOiBQIiplRFCADyB8IFRocm91Z2hwdXQ6IFAiK2VEUIAPIHwgQ29sbGlzaW9uczogUCInBGVEUEkVFlcGAkxQJwVMULAkQzYaAUkiWSMISwEVEkRXAgC+REkVFlcGAkxQJwVMULAkQw==", "clear": "C4EBQw=="}, "desc": "\n    Smart contract para auditor\u00eda de resultados experimentales.\n\n    Mantiene el nombre HelloWorld para no romper la estructura\n    generada por AlgoKit, pero la l\u00f3gica ya corresponde al proyecto.\n    ", "events": [], "networks": {}, "source": {"approval": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAwIDIgMQogICAgYnl0ZWNibG9jayAiZXhwZXJpbWVudF9jb3VudGVyIiAibGFzdF9leHBlcmltZW50X2lkIiAibGFzdF9yZXN1bHRzX2hhc2giICJsYXN0X3Rocm91Z2hwdXQiICJsYXN0X2NvbGxpc2lvbnMiIDB4MTUxZjdjNzUgIk5PTkUiICJsYXN0X2F1dGhvciIgImxhc3Rfcm91bmQiCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYm56IG1haW5fYWZ0ZXJfaWZfZWxzZUAyCiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weToxNAogICAgLy8gc2VsZi5leHBlcmltZW50X2NvdW50ZXIgPSBVSW50NjQoMCkKICAgIGJ5dGVjXzAgLy8gImV4cGVyaW1lbnRfY291bnRlciIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MTYKICAgIC8vIHNlbGYubGFzdF9leHBlcmltZW50X2lkID0gU3RyaW5nKCJOT05FIikKICAgIGJ5dGVjXzEgLy8gImxhc3RfZXhwZXJpbWVudF9pZCIKICAgIGJ5dGVjIDYgLy8gIk5PTkUiCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MTcKICAgIC8vIHNlbGYubGFzdF9yZXN1bHRzX2hhc2ggPSBTdHJpbmcoIk5PTkUiKQogICAgYnl0ZWNfMiAvLyAibGFzdF9yZXN1bHRzX2hhc2giCiAgICBieXRlYyA2IC8vICJOT05FIgogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjE4CiAgICAvLyBzZWxmLmxhc3RfdGhyb3VnaHB1dCA9IFN0cmluZygiMCIpCiAgICBieXRlY18zIC8vICJsYXN0X3Rocm91Z2hwdXQiCiAgICBwdXNoYnl0ZXMgIjAiCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MTkKICAgIC8vIHNlbGYubGFzdF9jb2xsaXNpb25zID0gU3RyaW5nKCIwIikKICAgIGJ5dGVjIDQgLy8gImxhc3RfY29sbGlzaW9ucyIKICAgIHB1c2hieXRlcyAiMCIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weToyMQogICAgLy8gc2VsZi5sYXN0X2F1dGhvciA9IEJ5dGVzKGIiIikKICAgIGJ5dGVjIDcgLy8gImxhc3RfYXV0aG9yIgogICAgcHVzaGJ5dGVzIDB4CiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MjIKICAgIC8vIHNlbGYubGFzdF9yb3VuZCA9IFVJbnQ2NCgwKQogICAgYnl0ZWMgOCAvLyAibGFzdF9yb3VuZCIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAoKbWFpbl9hZnRlcl9pZl9lbHNlQDI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBFeHBlcmltZW50QXVkaXQoQVJDNENvbnRyYWN0KToKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBtYWluX19fYWxnb3B5X2RlZmF1bHRfY3JlYXRlQDEzCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQKICAgIHB1c2hieXRlc3MgMHgwMmJlY2UxMSAweDdlNjMxYTVjIDB4MjI5YTQ1MTMgMHhlYzc2MjBlMCAvLyBtZXRob2QgImhlbGxvKHN0cmluZylzdHJpbmciLCBtZXRob2QgInJlZ2lzdGVyX2V4cGVyaW1lbnQoc3RyaW5nLHN0cmluZyxzdHJpbmcsc3RyaW5nLHN0cmluZylzdHJpbmciLCBtZXRob2QgImdldF9leHBlcmltZW50X3N1bW1hcnkoKXN0cmluZyIsIG1ldGhvZCAiZ2V0X2V4cGVyaW1lbnRfYm94KHN0cmluZylzdHJpbmciCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBoZWxsbyByZWdpc3Rlcl9leHBlcmltZW50IGdldF9leHBlcmltZW50X3N1bW1hcnkgZ2V0X2V4cGVyaW1lbnRfYm94CiAgICBlcnIKCm1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVAMTM6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgJiYKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5leHBlcmltZW50X2F1ZGl0LmNvbnRyYWN0LkV4cGVyaW1lbnRBdWRpdC5oZWxsb1tyb3V0aW5nXSgpIC0+IHZvaWQ6CmhlbGxvOgogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MjQKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYgLy8gb24gZXJyb3I6IGludmFsaWQgYXJyYXkgbGVuZ3RoIGhlYWRlcgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIGRpZyAxCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQuZHluYW1pY19hcnJheTxhcmM0LnVpbnQ4PgogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjI2CiAgICAvLyByZXR1cm4gU3RyaW5nKCJIZWxsbywgIikgKyBuYW1lCiAgICBwdXNoYnl0ZXMgIkhlbGxvLCAiCiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjI0CiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBieXRlYyA1IC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzIgLy8gMQogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmV4cGVyaW1lbnRfYXVkaXQuY29udHJhY3QuRXhwZXJpbWVudEF1ZGl0LnJlZ2lzdGVyX2V4cGVyaW1lbnRbcm91dGluZ10oKSAtPiB2b2lkOgpyZWdpc3Rlcl9leHBlcmltZW50OgogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MjgKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYgLy8gb24gZXJyb3I6IGludmFsaWQgYXJyYXkgbGVuZ3RoIGhlYWRlcgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIGRpZyAxCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQuZHluYW1pY19hcnJheTxhcmM0LnVpbnQ4PgogICAgZXh0cmFjdCAyIDAKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2IC8vIG9uIGVycm9yOiBpbnZhbGlkIGFycmF5IGxlbmd0aCBoZWFkZXIKICAgIGludGNfMSAvLyAyCiAgICArCiAgICBkaWcgMQogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciBhcmM0LmR5bmFtaWNfYXJyYXk8YXJjNC51aW50OD4KICAgIGV4dHJhY3QgMiAwCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAzCiAgICBkdXAKICAgIGludGNfMCAvLyAwCiAgICBleHRyYWN0X3VpbnQxNiAvLyBvbiBlcnJvcjogaW52YWxpZCBhcnJheSBsZW5ndGggaGVhZGVyCiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgZGlnIDEKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgYXJjNC5keW5hbWljX2FycmF5PGFyYzQudWludDg+CiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYgLy8gb24gZXJyb3I6IGludmFsaWQgYXJyYXkgbGVuZ3RoIGhlYWRlcgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIGRpZyAxCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQuZHluYW1pY19hcnJheTxhcmM0LnVpbnQ4PgogICAgZXh0cmFjdCAyIDAKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDUKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2IC8vIG9uIGVycm9yOiBpbnZhbGlkIGFycmF5IGxlbmd0aCBoZWFkZXIKICAgIGludGNfMSAvLyAyCiAgICArCiAgICBkaWcgMQogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciBhcmM0LmR5bmFtaWNfYXJyYXk8YXJjNC51aW50OD4KICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo0NC00NQogICAgLy8gIyBBY3R1YWxpemFyIHJlc3VtZW4gZ2xvYmFsCiAgICAvLyBzZWxmLmV4cGVyaW1lbnRfY291bnRlciArPSAxCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMCAvLyAiZXhwZXJpbWVudF9jb3VudGVyIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmV4cGVyaW1lbnRfY291bnRlciBleGlzdHMKICAgIGludGNfMiAvLyAxCiAgICArCiAgICBieXRlY18wIC8vICJleHBlcmltZW50X2NvdW50ZXIiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NDYKICAgIC8vIHNlbGYubGFzdF9leHBlcmltZW50X2lkID0gZXhwZXJpbWVudF9pZAogICAgYnl0ZWNfMSAvLyAibGFzdF9leHBlcmltZW50X2lkIgogICAgZGlnIDUKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo0NwogICAgLy8gc2VsZi5sYXN0X3Jlc3VsdHNfaGFzaCA9IHJlc3VsdHNfaGFzaAogICAgYnl0ZWNfMiAvLyAibGFzdF9yZXN1bHRzX2hhc2giCiAgICBkaWcgNAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjQ4CiAgICAvLyBzZWxmLmxhc3RfdGhyb3VnaHB1dCA9IHRocm91Z2hwdXQKICAgIGJ5dGVjXzMgLy8gImxhc3RfdGhyb3VnaHB1dCIKICAgIGRpZyAzCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NDkKICAgIC8vIHNlbGYubGFzdF9jb2xsaXNpb25zID0gY29sbGlzaW9ucwogICAgYnl0ZWMgNCAvLyAibGFzdF9jb2xsaXNpb25zIgogICAgZGlnIDIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo1MAogICAgLy8gc2VsZi5sYXN0X2F1dGhvciA9IFR4bi5zZW5kZXIuYnl0ZXMKICAgIGJ5dGVjIDcgLy8gImxhc3RfYXV0aG9yIgogICAgdHhuIFNlbmRlcgogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjUxCiAgICAvLyBzZWxmLmxhc3Rfcm91bmQgPSBHbG9iYWwucm91bmQKICAgIGJ5dGVjIDggLy8gImxhc3Rfcm91bmQiCiAgICBnbG9iYWwgUm91bmQKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo1OQogICAgLy8gYiJleHBlcmltZW50X2lkPSIKICAgIHB1c2hieXRlcyAweDY1Nzg3MDY1NzI2OTZkNjU2ZTc0NWY2OTY0M2QKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjU5LTYwCiAgICAvLyBiImV4cGVyaW1lbnRfaWQ9IgogICAgLy8gKyBleHBlcmltZW50X2lkLmJ5dGVzCiAgICBkaWcgNQogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo2MQogICAgLy8gKyBiIjtoYXNoPSIKICAgIHB1c2hieXRlcyAweDNiNjg2MTczNjgzZAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NTktNjEKICAgIC8vIGIiZXhwZXJpbWVudF9pZD0iCiAgICAvLyArIGV4cGVyaW1lbnRfaWQuYnl0ZXMKICAgIC8vICsgYiI7aGFzaD0iCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjU5LTYyCiAgICAvLyBiImV4cGVyaW1lbnRfaWQ9IgogICAgLy8gKyBleHBlcmltZW50X2lkLmJ5dGVzCiAgICAvLyArIGIiO2hhc2g9IgogICAgLy8gKyByZXN1bHRzX2hhc2guYnl0ZXMKICAgIHVuY292ZXIgNAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo2MwogICAgLy8gKyBiIjt0aHJvdWdocHV0PSIKICAgIHB1c2hieXRlcyAweDNiNzQ2ODcyNmY3NTY3Njg3MDc1NzQzZAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NTktNjMKICAgIC8vIGIiZXhwZXJpbWVudF9pZD0iCiAgICAvLyArIGV4cGVyaW1lbnRfaWQuYnl0ZXMKICAgIC8vICsgYiI7aGFzaD0iCiAgICAvLyArIHJlc3VsdHNfaGFzaC5ieXRlcwogICAgLy8gKyBiIjt0aHJvdWdocHV0PSIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NTktNjQKICAgIC8vIGIiZXhwZXJpbWVudF9pZD0iCiAgICAvLyArIGV4cGVyaW1lbnRfaWQuYnl0ZXMKICAgIC8vICsgYiI7aGFzaD0iCiAgICAvLyArIHJlc3VsdHNfaGFzaC5ieXRlcwogICAgLy8gKyBiIjt0aHJvdWdocHV0PSIKICAgIC8vICsgdGhyb3VnaHB1dC5ieXRlcwogICAgdW5jb3ZlciAzCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjY1CiAgICAvLyArIGIiO2NvbGxpc2lvbnM9IgogICAgcHVzaGJ5dGVzIDB4M2I2MzZmNmM2YzY5NzM2OTZmNmU3MzNkCiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo1OS02NQogICAgLy8gYiJleHBlcmltZW50X2lkPSIKICAgIC8vICsgZXhwZXJpbWVudF9pZC5ieXRlcwogICAgLy8gKyBiIjtoYXNoPSIKICAgIC8vICsgcmVzdWx0c19oYXNoLmJ5dGVzCiAgICAvLyArIGIiO3Rocm91Z2hwdXQ9IgogICAgLy8gKyB0aHJvdWdocHV0LmJ5dGVzCiAgICAvLyArIGIiO2NvbGxpc2lvbnM9IgogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo1OS02NgogICAgLy8gYiJleHBlcmltZW50X2lkPSIKICAgIC8vICsgZXhwZXJpbWVudF9pZC5ieXRlcwogICAgLy8gKyBiIjtoYXNoPSIKICAgIC8vICsgcmVzdWx0c19oYXNoLmJ5dGVzCiAgICAvLyArIGIiO3Rocm91Z2hwdXQ9IgogICAgLy8gKyB0aHJvdWdocHV0LmJ5dGVzCiAgICAvLyArIGIiO2NvbGxpc2lvbnM9IgogICAgLy8gKyBjb2xsaXNpb25zLmJ5dGVzCiAgICB1bmNvdmVyIDIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NjcKICAgIC8vICsgYiI7dGltZXN0YW1wPSIKICAgIHB1c2hieXRlcyAweDNiNzQ2OTZkNjU3Mzc0NjE2ZDcwM2QKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjU5LTY3CiAgICAvLyBiImV4cGVyaW1lbnRfaWQ9IgogICAgLy8gKyBleHBlcmltZW50X2lkLmJ5dGVzCiAgICAvLyArIGIiO2hhc2g9IgogICAgLy8gKyByZXN1bHRzX2hhc2guYnl0ZXMKICAgIC8vICsgYiI7dGhyb3VnaHB1dD0iCiAgICAvLyArIHRocm91Z2hwdXQuYnl0ZXMKICAgIC8vICsgYiI7Y29sbGlzaW9ucz0iCiAgICAvLyArIGNvbGxpc2lvbnMuYnl0ZXMKICAgIC8vICsgYiI7dGltZXN0YW1wPSIKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NTktNjgKICAgIC8vIGIiZXhwZXJpbWVudF9pZD0iCiAgICAvLyArIGV4cGVyaW1lbnRfaWQuYnl0ZXMKICAgIC8vICsgYiI7aGFzaD0iCiAgICAvLyArIHJlc3VsdHNfaGFzaC5ieXRlcwogICAgLy8gKyBiIjt0aHJvdWdocHV0PSIKICAgIC8vICsgdGhyb3VnaHB1dC5ieXRlcwogICAgLy8gKyBiIjtjb2xsaXNpb25zPSIKICAgIC8vICsgY29sbGlzaW9ucy5ieXRlcwogICAgLy8gKyBiIjt0aW1lc3RhbXA9IgogICAgLy8gKyB0aW1lc3RhbXAuYnl0ZXMKICAgIHN3YXAKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6NzEKICAgIC8vIGV4cGVyaW1lbnRfYm94LnZhbHVlID0gZXhwZXJpbWVudF9kYXRhCiAgICBkaWcgMQogICAgYm94X2RlbAogICAgcG9wCiAgICBib3hfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weToyOAogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NTAwMTU0NTc4NzA2NTcyNjk2ZDY1NmU3NDIwNzI2NTY3Njk3Mzc0NjU3MjY1NjQKICAgIGxvZwogICAgaW50Y18yIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5leHBlcmltZW50X2F1ZGl0LmNvbnRyYWN0LkV4cGVyaW1lbnRBdWRpdC5nZXRfZXhwZXJpbWVudF9zdW1tYXJ5W3JvdXRpbmddKCkgLT4gdm9pZDoKZ2V0X2V4cGVyaW1lbnRfc3VtbWFyeToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjgzCiAgICAvLyArIHNlbGYubGFzdF9leHBlcmltZW50X2lkCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMSAvLyAibGFzdF9leHBlcmltZW50X2lkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmxhc3RfZXhwZXJpbWVudF9pZCBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjgyCiAgICAvLyBTdHJpbmcoIkV4cGVyaW1lbnQgSUQ6ICIpCiAgICBwdXNoYnl0ZXMgIkV4cGVyaW1lbnQgSUQ6ICIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjgyLTgzCiAgICAvLyBTdHJpbmcoIkV4cGVyaW1lbnQgSUQ6ICIpCiAgICAvLyArIHNlbGYubGFzdF9leHBlcmltZW50X2lkCiAgICBzd2FwCiAgICBjb25jYXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5Ojg0CiAgICAvLyArIFN0cmluZygiIHwgSGFzaDogIikKICAgIHB1c2hieXRlcyAiIHwgSGFzaDogIgogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6ODItODQKICAgIC8vIFN0cmluZygiRXhwZXJpbWVudCBJRDogIikKICAgIC8vICsgc2VsZi5sYXN0X2V4cGVyaW1lbnRfaWQKICAgIC8vICsgU3RyaW5nKCIgfCBIYXNoOiAiKQogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo4NQogICAgLy8gKyBzZWxmLmxhc3RfcmVzdWx0c19oYXNoCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWNfMiAvLyAibGFzdF9yZXN1bHRzX2hhc2giCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYubGFzdF9yZXN1bHRzX2hhc2ggZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo4Mi04NQogICAgLy8gU3RyaW5nKCJFeHBlcmltZW50IElEOiAiKQogICAgLy8gKyBzZWxmLmxhc3RfZXhwZXJpbWVudF9pZAogICAgLy8gKyBTdHJpbmcoIiB8IEhhc2g6ICIpCiAgICAvLyArIHNlbGYubGFzdF9yZXN1bHRzX2hhc2gKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6ODYKICAgIC8vICsgU3RyaW5nKCIgfCBUaHJvdWdocHV0OiAiKQogICAgcHVzaGJ5dGVzICIgfCBUaHJvdWdocHV0OiAiCiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo4Mi04NgogICAgLy8gU3RyaW5nKCJFeHBlcmltZW50IElEOiAiKQogICAgLy8gKyBzZWxmLmxhc3RfZXhwZXJpbWVudF9pZAogICAgLy8gKyBTdHJpbmcoIiB8IEhhc2g6ICIpCiAgICAvLyArIHNlbGYubGFzdF9yZXN1bHRzX2hhc2gKICAgIC8vICsgU3RyaW5nKCIgfCBUaHJvdWdocHV0OiAiKQogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo4NwogICAgLy8gKyBzZWxmLmxhc3RfdGhyb3VnaHB1dAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzMgLy8gImxhc3RfdGhyb3VnaHB1dCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5sYXN0X3Rocm91Z2hwdXQgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo4Mi04NwogICAgLy8gU3RyaW5nKCJFeHBlcmltZW50IElEOiAiKQogICAgLy8gKyBzZWxmLmxhc3RfZXhwZXJpbWVudF9pZAogICAgLy8gKyBTdHJpbmcoIiB8IEhhc2g6ICIpCiAgICAvLyArIHNlbGYubGFzdF9yZXN1bHRzX2hhc2gKICAgIC8vICsgU3RyaW5nKCIgfCBUaHJvdWdocHV0OiAiKQogICAgLy8gKyBzZWxmLmxhc3RfdGhyb3VnaHB1dAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo4OAogICAgLy8gKyBTdHJpbmcoIiB8IENvbGxpc2lvbnM6ICIpCiAgICBwdXNoYnl0ZXMgIiB8IENvbGxpc2lvbnM6ICIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9leHBlcmltZW50X2F1ZGl0L2NvbnRyYWN0LnB5OjgyLTg4CiAgICAvLyBTdHJpbmcoIkV4cGVyaW1lbnQgSUQ6ICIpCiAgICAvLyArIHNlbGYubGFzdF9leHBlcmltZW50X2lkCiAgICAvLyArIFN0cmluZygiIHwgSGFzaDogIikKICAgIC8vICsgc2VsZi5sYXN0X3Jlc3VsdHNfaGFzaAogICAgLy8gKyBTdHJpbmcoIiB8IFRocm91Z2hwdXQ6ICIpCiAgICAvLyArIHNlbGYubGFzdF90aHJvdWdocHV0CiAgICAvLyArIFN0cmluZygiIHwgQ29sbGlzaW9uczogIikKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6ODkKICAgIC8vICsgc2VsZi5sYXN0X2NvbGxpc2lvbnMKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA0IC8vICJsYXN0X2NvbGxpc2lvbnMiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYubGFzdF9jb2xsaXNpb25zIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6ODItODkKICAgIC8vIFN0cmluZygiRXhwZXJpbWVudCBJRDogIikKICAgIC8vICsgc2VsZi5sYXN0X2V4cGVyaW1lbnRfaWQKICAgIC8vICsgU3RyaW5nKCIgfCBIYXNoOiAiKQogICAgLy8gKyBzZWxmLmxhc3RfcmVzdWx0c19oYXNoCiAgICAvLyArIFN0cmluZygiIHwgVGhyb3VnaHB1dDogIikKICAgIC8vICsgc2VsZi5sYXN0X3Rocm91Z2hwdXQKICAgIC8vICsgU3RyaW5nKCIgfCBDb2xsaXNpb25zOiAiKQogICAgLy8gKyBzZWxmLmxhc3RfY29sbGlzaW9ucwogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo3NQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBkdXAKICAgIGxlbgogICAgaXRvYgogICAgZXh0cmFjdCA2IDIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgYnl0ZWMgNSAvLyAweDE1MWY3Yzc1CiAgICBzd2FwCiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18yIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5leHBlcmltZW50X2F1ZGl0LmNvbnRyYWN0LkV4cGVyaW1lbnRBdWRpdC5nZXRfZXhwZXJpbWVudF9ib3hbcm91dGluZ10oKSAtPiB2b2lkOgpnZXRfZXhwZXJpbWVudF9ib3g6CiAgICAvLyBzbWFydF9jb250cmFjdHMvZXhwZXJpbWVudF9hdWRpdC9jb250cmFjdC5weTo5MgogICAgLy8gQGFiaW1ldGhvZCgpCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBkdXAKICAgIGludGNfMCAvLyAwCiAgICBleHRyYWN0X3VpbnQxNiAvLyBvbiBlcnJvcjogaW52YWxpZCBhcnJheSBsZW5ndGggaGVhZGVyCiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgZGlnIDEKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgYXJjNC5keW5hbWljX2FycmF5PGFyYzQudWludDg+CiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6MTA0CiAgICAvLyByZXR1cm4gU3RyaW5nLmZyb21fYnl0ZXMoZXhwZXJpbWVudF9ib3gudmFsdWUpCiAgICBib3hfZ2V0CiAgICBhc3NlcnQgLy8gY2hlY2sgQm94IGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL2V4cGVyaW1lbnRfYXVkaXQvY29udHJhY3QucHk6OTIKICAgIC8vIEBhYmltZXRob2QoKQogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjIDUgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMiAvLyAxCiAgICByZXR1cm4K", "clear": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMQogICAgcmV0dXJuCg=="}, "sourceInfo": {"approval": {"pcOffsetMethod": "none", "sourceInfo": [{"pc": [618], "errorMessage": "check Box exists"}, {"pc": [346], "errorMessage": "check self.experiment_counter exists"}, {"pc": [584], "errorMessage": "check self.last_collisions exists"}, {"pc": [502], "errorMessage": "check self.last_experiment_id exists"}, {"pc": [537], "errorMessage": "check self.last_results_hash exists"}, {"pc": [560], "errorMessage": "check self.last_throughput exists"}, {"pc": [226, 268, 284, 300, 316, 332, 606], "errorMessage": "invalid array length header"}, {"pc": [233, 275, 291, 307, 323, 339, 613], "errorMessage": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>"}]}, "clear": {"pcOffsetMethod": "none", "sourceInfo": []}}, "templateVariables": {}}"""
 APP_SPEC = algokit_utils.Arc56Contract.from_json(_APP_SPEC_JSON)
 
 def _parse_abi_args(args: object | None = None) -> list[object] | None:
@@ -73,6 +73,28 @@ class HelloArgs:
     def abi_method_signature(self) -> str:
         return "hello(string)string"
 
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class RegisterExperimentArgs:
+    """Dataclass for register_experiment arguments"""
+    experiment_id: str
+    results_hash: str
+    throughput: str
+    collisions: str
+    timestamp: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "register_experiment(string,string,string,string,string)string"
+
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class GetExperimentBoxArgs:
+    """Dataclass for get_experiment_box arguments"""
+    experiment_id: str
+
+    @property
+    def abi_method_signature(self) -> str:
+        return "get_experiment_box(string)string"
+
 
 class ExperimentAuditParams:
     def __init__(self, app_client: algokit_utils.AppClient):
@@ -88,6 +110,43 @@ class ExperimentAuditParams:
         return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
             "method": "hello(string)string",
+            "args": method_args,
+        }))
+
+    def register_experiment(
+        self,
+        args: tuple[str, str, str, str, str] | RegisterExperimentArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "register_experiment(string,string,string,string,string)string",
+            "args": method_args,
+        }))
+
+    def get_experiment_summary(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_experiment_summary()string",
+        }))
+
+    def get_experiment_box(
+        self,
+        args: tuple[str] | GetExperimentBoxArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.AppCallMethodCallParams:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.params.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_experiment_box(string)string",
             "args": method_args,
         }))
 
@@ -116,6 +175,43 @@ class ExperimentAuditCreateTransactionParams:
         return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
             **dataclasses.asdict(params),
             "method": "hello(string)string",
+            "args": method_args,
+        }))
+
+    def register_experiment(
+        self,
+        args: tuple[str, str, str, str, str] | RegisterExperimentArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "register_experiment(string,string,string,string,string)string",
+            "args": method_args,
+        }))
+
+    def get_experiment_summary(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_experiment_summary()string",
+        }))
+
+    def get_experiment_box(
+        self,
+        args: tuple[str] | GetExperimentBoxArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> algokit_utils.BuiltTransactions:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        return self.app_client.create_transaction.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_experiment_box(string)string",
             "args": method_args,
         }))
 
@@ -150,6 +246,52 @@ class ExperimentAuditSend:
         parsed_response = response
         return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
 
+    def register_experiment(
+        self,
+        args: tuple[str, str, str, str, str] | RegisterExperimentArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "register_experiment(string,string,string,string,string)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def get_experiment_summary(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+    
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_experiment_summary()string",
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
+    def get_experiment_box(
+        self,
+        args: tuple[str] | GetExperimentBoxArgs,
+        params: algokit_utils.CommonAppCallParams | None = None,
+        send_params: algokit_utils.SendParams | None = None
+    ) -> algokit_utils.SendAppTransactionResult[str]:
+        method_args = _parse_abi_args(args)
+        params = params or algokit_utils.CommonAppCallParams()
+        response = self.app_client.send.call(algokit_utils.AppClientMethodCallParams(**{
+            **dataclasses.asdict(params),
+            "method": "get_experiment_box(string)string",
+            "args": method_args,
+        }), send_params=send_params)
+        parsed_response = response
+        return typing.cast(algokit_utils.SendAppTransactionResult[str], parsed_response)
+
     def clear_state(
         self,
         params: algokit_utils.AppClientBareCallParams | None = None,
@@ -161,11 +303,107 @@ class ExperimentAuditSend:
         )
 
 
+class GlobalStateValue(typing.TypedDict):
+    """Shape of global_state state key values"""
+    experiment_counter: int
+    last_experiment_id: str
+    last_results_hash: str
+    last_throughput: str
+    last_collisions: str
+    last_author: bytes
+    last_round: int
+
 class ExperimentAuditState:
     """Methods to access state for the current ExperimentAudit app"""
 
     def __init__(self, app_client: algokit_utils.AppClient):
         self.app_client = app_client
+
+    @property
+    def global_state(
+        self
+    ) -> "_GlobalState":
+            """Methods to access global_state for the current app"""
+            return _GlobalState(self.app_client)
+
+class _GlobalState:
+    def __init__(self, app_client: algokit_utils.AppClient):
+        self.app_client = app_client
+        
+        # Pre-generated mapping of value types to their struct classes
+        self._struct_classes: dict[str, typing.Type[typing.Any]] = {}
+
+    def get_all(self) -> GlobalStateValue:
+        """Get all current keyed values from global_state state"""
+        result = self.app_client.state.global_state.get_all()
+        if not result:
+            return typing.cast(GlobalStateValue, {})
+
+        converted = {}
+        for key, value in result.items():
+            key_info = self.app_client.app_spec.state.keys.global_state.get(key)
+            struct_class = self._struct_classes.get(key_info.value_type) if key_info else None
+            converted[key] = (
+                _init_dataclass(struct_class, value) if struct_class and isinstance(value, dict)
+                else value
+            )
+        return typing.cast(GlobalStateValue, converted)
+
+    @property
+    def experiment_counter(self) -> int:
+        """Get the current value of the experiment_counter key in global_state state"""
+        value = self.app_client.state.global_state.get_value("experiment_counter")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
+
+    @property
+    def last_experiment_id(self) -> str:
+        """Get the current value of the last_experiment_id key in global_state state"""
+        value = self.app_client.state.global_state.get_value("last_experiment_id")
+        if isinstance(value, dict) and "AVMString" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMString"], value)  # type: ignore
+        return typing.cast(str, value)
+
+    @property
+    def last_results_hash(self) -> str:
+        """Get the current value of the last_results_hash key in global_state state"""
+        value = self.app_client.state.global_state.get_value("last_results_hash")
+        if isinstance(value, dict) and "AVMString" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMString"], value)  # type: ignore
+        return typing.cast(str, value)
+
+    @property
+    def last_throughput(self) -> str:
+        """Get the current value of the last_throughput key in global_state state"""
+        value = self.app_client.state.global_state.get_value("last_throughput")
+        if isinstance(value, dict) and "AVMString" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMString"], value)  # type: ignore
+        return typing.cast(str, value)
+
+    @property
+    def last_collisions(self) -> str:
+        """Get the current value of the last_collisions key in global_state state"""
+        value = self.app_client.state.global_state.get_value("last_collisions")
+        if isinstance(value, dict) and "AVMString" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMString"], value)  # type: ignore
+        return typing.cast(str, value)
+
+    @property
+    def last_author(self) -> bytes:
+        """Get the current value of the last_author key in global_state state"""
+        value = self.app_client.state.global_state.get_value("last_author")
+        if isinstance(value, dict) and "AVMBytes" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMBytes"], value)  # type: ignore
+        return typing.cast(bytes, value)
+
+    @property
+    def last_round(self) -> int:
+        """Get the current value of the last_round key in global_state state"""
+        value = self.app_client.state.global_state.get_value("last_round")
+        if isinstance(value, dict) and "AVMUint64" in self._struct_classes:
+            return _init_dataclass(self._struct_classes["AVMUint64"], value)  # type: ignore
+        return typing.cast(int, value)
 
 class ExperimentAuditClient:
     """Client for interacting with ExperimentAudit smart contract"""
@@ -314,6 +552,24 @@ class ExperimentAuditClient:
     def decode_return_value(
         self,
         method: typing.Literal["hello(string)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["register_experiment(string,string,string,string,string)string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_experiment_summary()string"],
+        return_value: algokit_utils.ABIReturn | None
+    ) -> str | None: ...
+    @typing.overload
+    def decode_return_value(
+        self,
+        method: typing.Literal["get_experiment_box(string)string"],
         return_value: algokit_utils.ABIReturn | None
     ) -> str | None: ...
     @typing.overload
@@ -518,6 +774,65 @@ class ExperimentAuditFactoryCreateParams:
             compilation_params=compilation_params
         )
 
+    def register_experiment(
+        self,
+        args: tuple[str, str, str, str, str] | RegisterExperimentArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the register_experiment(string,string,string,string,string)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "register_experiment(string,string,string,string,string)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_experiment_summary(
+        self,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_experiment_summary()string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_experiment_summary()string",
+                "args": None,
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
+    def get_experiment_box(
+        self,
+        args: tuple[str] | GetExperimentBoxArgs,
+        *,
+        params: algokit_utils.CommonAppCallCreateParams | None = None,
+        compilation_params: algokit_utils.AppClientCompilationParams | None = None
+    ) -> algokit_utils.AppCreateMethodCallParams:
+        """Creates a new instance using the get_experiment_box(string)string ABI method"""
+        params = params or algokit_utils.CommonAppCallCreateParams()
+        return self.app_factory.params.create(
+            algokit_utils.AppFactoryCreateMethodCallParams(
+                **{
+                **dataclasses.asdict(params),
+                "method": "get_experiment_box(string)string",
+                "args": _parse_abi_args(args),
+                }
+            ),
+            compilation_params=compilation_params
+        )
+
 class ExperimentAuditFactoryUpdateParams:
     """Parameters for 'update' operations of ExperimentAudit contract"""
 
@@ -633,6 +948,59 @@ class ExperimentAuditComposer:
         self._result_mappers.append(
             lambda v: self.client.decode_return_value(
                 "hello(string)string", v
+            )
+        )
+        return self
+
+    def register_experiment(
+        self,
+        args: tuple[str, str, str, str, str] | RegisterExperimentArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "ExperimentAuditComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.register_experiment(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "register_experiment(string,string,string,string,string)string", v
+            )
+        )
+        return self
+
+    def get_experiment_summary(
+        self,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "ExperimentAuditComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_experiment_summary(
+                
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_experiment_summary()string", v
+            )
+        )
+        return self
+
+    def get_experiment_box(
+        self,
+        args: tuple[str] | GetExperimentBoxArgs,
+        params: algokit_utils.CommonAppCallParams | None = None
+    ) -> "ExperimentAuditComposer":
+        self._composer.add_app_call_method_call(
+            self.client.params.get_experiment_box(
+                args=args,
+                params=params,
+            )
+        )
+        self._result_mappers.append(
+            lambda v: self.client.decode_return_value(
+                "get_experiment_box(string)string", v
             )
         )
         return self
