@@ -3,43 +3,48 @@
 
 // algopy.arc4.ARC4Contract.approval_program() -> uint64:
 main:
-    intcblock 0 2 1
-    bytecblock "experiment_counter" "last_experiment_id" "last_results_hash" "last_throughput" "last_collisions" 0x151f7c75 "NONE" "last_author" "last_round"
+    intcblock 0 1 2
+    bytecblock 0x151f7c75 "experiment_counter" "last_experiment_id" "NONE" "last_results_hash" "last_throughput" "last_collisions" "last_timestamp" "last_author" "last_round"
     txn ApplicationID
     bnz main_after_if_else@2
     // smart_contracts/experiment_audit/contract.py:14
     // self.experiment_counter = UInt64(0)
-    bytec_0 // "experiment_counter"
+    bytec_1 // "experiment_counter"
     intc_0 // 0
     app_global_put
     // smart_contracts/experiment_audit/contract.py:16
     // self.last_experiment_id = String("NONE")
-    bytec_1 // "last_experiment_id"
-    bytec 6 // "NONE"
+    bytec_2 // "last_experiment_id"
+    bytec_3 // "NONE"
     app_global_put
     // smart_contracts/experiment_audit/contract.py:17
     // self.last_results_hash = String("NONE")
-    bytec_2 // "last_results_hash"
-    bytec 6 // "NONE"
+    bytec 4 // "last_results_hash"
+    bytec_3 // "NONE"
     app_global_put
     // smart_contracts/experiment_audit/contract.py:18
     // self.last_throughput = String("0")
-    bytec_3 // "last_throughput"
+    bytec 5 // "last_throughput"
     pushbytes "0"
     app_global_put
     // smart_contracts/experiment_audit/contract.py:19
     // self.last_collisions = String("0")
-    bytec 4 // "last_collisions"
+    bytec 6 // "last_collisions"
     pushbytes "0"
     app_global_put
-    // smart_contracts/experiment_audit/contract.py:21
-    // self.last_author = Bytes(b"")
-    bytec 7 // "last_author"
-    pushbytes 0x
+    // smart_contracts/experiment_audit/contract.py:20
+    // self.last_timestamp = String("NONE")
+    bytec 7 // "last_timestamp"
+    bytec_3 // "NONE"
     app_global_put
     // smart_contracts/experiment_audit/contract.py:22
+    // self.last_author = Bytes(b"")
+    bytec 8 // "last_author"
+    pushbytes 0x
+    app_global_put
+    // smart_contracts/experiment_audit/contract.py:23
     // self.last_round = UInt64(0)
-    bytec 8 // "last_round"
+    bytec 9 // "last_round"
     intc_0 // 0
     app_global_put
 
@@ -47,18 +52,18 @@ main_after_if_else@2:
     // smart_contracts/experiment_audit/contract.py:5
     // class ExperimentAudit(ARC4Contract):
     txn NumAppArgs
-    bz main___algopy_default_create@13
+    bz main___algopy_default_create@16
     txn OnCompletion
     !
     assert
     txn ApplicationID
     assert
-    pushbytess 0x02bece11 0x7e631a5c 0x229a4513 0xec7620e0 // method "hello(string)string", method "register_experiment(string,string,string,string,string)string", method "get_experiment_summary()string", method "get_experiment_box(string)string"
+    pushbytess 0x02bece11 0x7e631a5c 0x229a4513 0xec7620e0 0xc9c9375a 0x82d52ff8 0x16b9be75 // method "hello(string)string", method "register_experiment(string,string,string,string,string)string", method "get_experiment_summary()string", method "get_experiment_box(string)string", method "get_counter()uint64", method "get_last_round()uint64", method "get_last_author()string"
     txna ApplicationArgs 0
-    match hello register_experiment get_experiment_summary get_experiment_box
+    match hello register_experiment get_experiment_summary get_experiment_box get_counter get_last_round get_last_author
     err
 
-main___algopy_default_create@13:
+main___algopy_default_create@16:
     txn OnCompletion
     !
     txn ApplicationID
@@ -69,25 +74,25 @@ main___algopy_default_create@13:
 
 // smart_contracts.experiment_audit.contract.ExperimentAudit.hello[routing]() -> void:
 hello:
-    // smart_contracts/experiment_audit/contract.py:24
+    // smart_contracts/experiment_audit/contract.py:25
     // @abimethod()
     txna ApplicationArgs 1
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/experiment_audit/contract.py:26
+    // smart_contracts/experiment_audit/contract.py:27
     // return String("Hello, ") + name
     pushbytes "Hello, "
     swap
     concat
-    // smart_contracts/experiment_audit/contract.py:24
+    // smart_contracts/experiment_audit/contract.py:25
     // @abimethod()
     dup
     len
@@ -95,23 +100,23 @@ hello:
     extract 6 2
     swap
     concat
-    bytec 5 // 0x151f7c75
+    bytec_0 // 0x151f7c75
     swap
     concat
     log
-    intc_2 // 1
+    intc_1 // 1
     return
 
 
 // smart_contracts.experiment_audit.contract.ExperimentAudit.register_experiment[routing]() -> void:
 register_experiment:
-    // smart_contracts/experiment_audit/contract.py:28
+    // smart_contracts/experiment_audit/contract.py:29
     // @abimethod()
     txna ApplicationArgs 1
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
@@ -122,7 +127,7 @@ register_experiment:
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
@@ -133,7 +138,7 @@ register_experiment:
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
@@ -144,7 +149,7 @@ register_experiment:
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
@@ -155,89 +160,94 @@ register_experiment:
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/experiment_audit/contract.py:44-45
+    // smart_contracts/experiment_audit/contract.py:45-46
     // # Actualizar resumen global
     // self.experiment_counter += 1
     intc_0 // 0
-    bytec_0 // "experiment_counter"
+    bytec_1 // "experiment_counter"
     app_global_get_ex
     assert // check self.experiment_counter exists
-    intc_2 // 1
+    intc_1 // 1
     +
-    bytec_0 // "experiment_counter"
+    bytec_1 // "experiment_counter"
     swap
     app_global_put
-    // smart_contracts/experiment_audit/contract.py:46
-    // self.last_experiment_id = experiment_id
-    bytec_1 // "last_experiment_id"
-    dig 5
-    app_global_put
     // smart_contracts/experiment_audit/contract.py:47
-    // self.last_results_hash = results_hash
-    bytec_2 // "last_results_hash"
-    dig 4
+    // self.last_experiment_id = experiment_id
+    bytec_2 // "last_experiment_id"
+    dig 5
     app_global_put
     // smart_contracts/experiment_audit/contract.py:48
-    // self.last_throughput = throughput
-    bytec_3 // "last_throughput"
-    dig 3
+    // self.last_results_hash = results_hash
+    bytec 4 // "last_results_hash"
+    dig 4
     app_global_put
     // smart_contracts/experiment_audit/contract.py:49
-    // self.last_collisions = collisions
-    bytec 4 // "last_collisions"
-    dig 2
+    // self.last_throughput = throughput
+    bytec 5 // "last_throughput"
+    dig 3
     app_global_put
     // smart_contracts/experiment_audit/contract.py:50
-    // self.last_author = Txn.sender.bytes
-    bytec 7 // "last_author"
-    txn Sender
+    // self.last_collisions = collisions
+    bytec 6 // "last_collisions"
+    dig 2
     app_global_put
     // smart_contracts/experiment_audit/contract.py:51
+    // self.last_author = Txn.sender.bytes
+    bytec 8 // "last_author"
+    txn Sender
+    app_global_put
+    // smart_contracts/experiment_audit/contract.py:52
     // self.last_round = Global.round
-    bytec 8 // "last_round"
+    bytec 9 // "last_round"
     global Round
     app_global_put
-    // smart_contracts/experiment_audit/contract.py:59
+    // smart_contracts/experiment_audit/contract.py:53
+    // self.last_timestamp = timestamp
+    bytec 7 // "last_timestamp"
+    dig 1
+    app_global_put
+    // smart_contracts/experiment_audit/contract.py:61
     // b"experiment_id="
     pushbytes 0x6578706572696d656e745f69643d
-    // smart_contracts/experiment_audit/contract.py:59-60
+    // smart_contracts/experiment_audit/contract.py:61-62
     // b"experiment_id="
     // + experiment_id.bytes
     dig 5
     concat
-    // smart_contracts/experiment_audit/contract.py:61
+    // smart_contracts/experiment_audit/contract.py:63
     // + b";hash="
     pushbytes 0x3b686173683d
-    // smart_contracts/experiment_audit/contract.py:59-61
+    // smart_contracts/experiment_audit/contract.py:61-63
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
     concat
-    // smart_contracts/experiment_audit/contract.py:59-62
+    // smart_contracts/experiment_audit/contract.py:61-64
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
     // + results_hash.bytes
     uncover 4
     concat
-    // smart_contracts/experiment_audit/contract.py:63
+    // smart_contracts/experiment_audit/contract.py:65
     // + b";throughput="
     pushbytes 0x3b7468726f7567687075743d
-    // smart_contracts/experiment_audit/contract.py:59-63
+    // smart_contracts/experiment_audit/contract.py:61-65
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
     // + results_hash.bytes
     // + b";throughput="
     concat
-    // smart_contracts/experiment_audit/contract.py:59-64
+    // smart_contracts/experiment_audit/contract.py:61-66
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
@@ -246,10 +256,10 @@ register_experiment:
     // + throughput.bytes
     uncover 3
     concat
-    // smart_contracts/experiment_audit/contract.py:65
+    // smart_contracts/experiment_audit/contract.py:67
     // + b";collisions="
     pushbytes 0x3b636f6c6c6973696f6e733d
-    // smart_contracts/experiment_audit/contract.py:59-65
+    // smart_contracts/experiment_audit/contract.py:61-67
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
@@ -258,7 +268,7 @@ register_experiment:
     // + throughput.bytes
     // + b";collisions="
     concat
-    // smart_contracts/experiment_audit/contract.py:59-66
+    // smart_contracts/experiment_audit/contract.py:61-68
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
@@ -269,10 +279,10 @@ register_experiment:
     // + collisions.bytes
     uncover 2
     concat
-    // smart_contracts/experiment_audit/contract.py:67
+    // smart_contracts/experiment_audit/contract.py:69
     // + b";timestamp="
     pushbytes 0x3b74696d657374616d703d
-    // smart_contracts/experiment_audit/contract.py:59-67
+    // smart_contracts/experiment_audit/contract.py:61-69
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
@@ -283,7 +293,7 @@ register_experiment:
     // + collisions.bytes
     // + b";timestamp="
     concat
-    // smart_contracts/experiment_audit/contract.py:59-68
+    // smart_contracts/experiment_audit/contract.py:61-70
     // b"experiment_id="
     // + experiment_id.bytes
     // + b";hash="
@@ -296,99 +306,99 @@ register_experiment:
     // + timestamp.bytes
     swap
     concat
-    // smart_contracts/experiment_audit/contract.py:71
+    // smart_contracts/experiment_audit/contract.py:73
     // experiment_box.value = experiment_data
     dig 1
     box_del
     pop
     box_put
-    // smart_contracts/experiment_audit/contract.py:28
+    // smart_contracts/experiment_audit/contract.py:29
     // @abimethod()
     pushbytes 0x151f7c7500154578706572696d656e742072656769737465726564
     log
-    intc_2 // 1
+    intc_1 // 1
     return
 
 
 // smart_contracts.experiment_audit.contract.ExperimentAudit.get_experiment_summary[routing]() -> void:
 get_experiment_summary:
-    // smart_contracts/experiment_audit/contract.py:83
+    // smart_contracts/experiment_audit/contract.py:85
     // + self.last_experiment_id
     intc_0 // 0
-    bytec_1 // "last_experiment_id"
+    bytec_2 // "last_experiment_id"
     app_global_get_ex
     assert // check self.last_experiment_id exists
-    // smart_contracts/experiment_audit/contract.py:82
+    // smart_contracts/experiment_audit/contract.py:84
     // String("Experiment ID: ")
     pushbytes "Experiment ID: "
-    // smart_contracts/experiment_audit/contract.py:82-83
+    // smart_contracts/experiment_audit/contract.py:84-85
     // String("Experiment ID: ")
     // + self.last_experiment_id
     swap
     concat
-    // smart_contracts/experiment_audit/contract.py:84
+    // smart_contracts/experiment_audit/contract.py:86
     // + String(" | Hash: ")
     pushbytes " | Hash: "
-    // smart_contracts/experiment_audit/contract.py:82-84
+    // smart_contracts/experiment_audit/contract.py:84-86
     // String("Experiment ID: ")
     // + self.last_experiment_id
     // + String(" | Hash: ")
-    concat
-    // smart_contracts/experiment_audit/contract.py:85
-    // + self.last_results_hash
-    intc_0 // 0
-    bytec_2 // "last_results_hash"
-    app_global_get_ex
-    assert // check self.last_results_hash exists
-    // smart_contracts/experiment_audit/contract.py:82-85
-    // String("Experiment ID: ")
-    // + self.last_experiment_id
-    // + String(" | Hash: ")
-    // + self.last_results_hash
-    concat
-    // smart_contracts/experiment_audit/contract.py:86
-    // + String(" | Throughput: ")
-    pushbytes " | Throughput: "
-    // smart_contracts/experiment_audit/contract.py:82-86
-    // String("Experiment ID: ")
-    // + self.last_experiment_id
-    // + String(" | Hash: ")
-    // + self.last_results_hash
-    // + String(" | Throughput: ")
     concat
     // smart_contracts/experiment_audit/contract.py:87
-    // + self.last_throughput
+    // + self.last_results_hash
     intc_0 // 0
-    bytec_3 // "last_throughput"
+    bytec 4 // "last_results_hash"
     app_global_get_ex
-    assert // check self.last_throughput exists
-    // smart_contracts/experiment_audit/contract.py:82-87
+    assert // check self.last_results_hash exists
+    // smart_contracts/experiment_audit/contract.py:84-87
     // String("Experiment ID: ")
     // + self.last_experiment_id
     // + String(" | Hash: ")
     // + self.last_results_hash
-    // + String(" | Throughput: ")
-    // + self.last_throughput
     concat
     // smart_contracts/experiment_audit/contract.py:88
-    // + String(" | Collisions: ")
-    pushbytes " | Collisions: "
-    // smart_contracts/experiment_audit/contract.py:82-88
+    // + String(" | Throughput: ")
+    pushbytes " | Throughput: "
+    // smart_contracts/experiment_audit/contract.py:84-88
     // String("Experiment ID: ")
     // + self.last_experiment_id
     // + String(" | Hash: ")
     // + self.last_results_hash
     // + String(" | Throughput: ")
-    // + self.last_throughput
-    // + String(" | Collisions: ")
     concat
     // smart_contracts/experiment_audit/contract.py:89
+    // + self.last_throughput
+    intc_0 // 0
+    bytec 5 // "last_throughput"
+    app_global_get_ex
+    assert // check self.last_throughput exists
+    // smart_contracts/experiment_audit/contract.py:84-89
+    // String("Experiment ID: ")
+    // + self.last_experiment_id
+    // + String(" | Hash: ")
+    // + self.last_results_hash
+    // + String(" | Throughput: ")
+    // + self.last_throughput
+    concat
+    // smart_contracts/experiment_audit/contract.py:90
+    // + String(" | Collisions: ")
+    pushbytes " | Collisions: "
+    // smart_contracts/experiment_audit/contract.py:84-90
+    // String("Experiment ID: ")
+    // + self.last_experiment_id
+    // + String(" | Hash: ")
+    // + self.last_results_hash
+    // + String(" | Throughput: ")
+    // + self.last_throughput
+    // + String(" | Collisions: ")
+    concat
+    // smart_contracts/experiment_audit/contract.py:91
     // + self.last_collisions
     intc_0 // 0
-    bytec 4 // "last_collisions"
+    bytec 6 // "last_collisions"
     app_global_get_ex
     assert // check self.last_collisions exists
-    // smart_contracts/experiment_audit/contract.py:82-89
+    // smart_contracts/experiment_audit/contract.py:84-91
     // String("Experiment ID: ")
     // + self.last_experiment_id
     // + String(" | Hash: ")
@@ -398,7 +408,39 @@ get_experiment_summary:
     // + String(" | Collisions: ")
     // + self.last_collisions
     concat
-    // smart_contracts/experiment_audit/contract.py:75
+    // smart_contracts/experiment_audit/contract.py:92
+    // + String(" | Timestamp: ")
+    pushbytes " | Timestamp: "
+    // smart_contracts/experiment_audit/contract.py:84-92
+    // String("Experiment ID: ")
+    // + self.last_experiment_id
+    // + String(" | Hash: ")
+    // + self.last_results_hash
+    // + String(" | Throughput: ")
+    // + self.last_throughput
+    // + String(" | Collisions: ")
+    // + self.last_collisions
+    // + String(" | Timestamp: ")
+    concat
+    // smart_contracts/experiment_audit/contract.py:93
+    // + self.last_timestamp
+    intc_0 // 0
+    bytec 7 // "last_timestamp"
+    app_global_get_ex
+    assert // check self.last_timestamp exists
+    // smart_contracts/experiment_audit/contract.py:84-93
+    // String("Experiment ID: ")
+    // + self.last_experiment_id
+    // + String(" | Hash: ")
+    // + self.last_results_hash
+    // + String(" | Throughput: ")
+    // + self.last_throughput
+    // + String(" | Collisions: ")
+    // + self.last_collisions
+    // + String(" | Timestamp: ")
+    // + self.last_timestamp
+    concat
+    // smart_contracts/experiment_audit/contract.py:77
     // @abimethod()
     dup
     len
@@ -406,34 +448,34 @@ get_experiment_summary:
     extract 6 2
     swap
     concat
-    bytec 5 // 0x151f7c75
+    bytec_0 // 0x151f7c75
     swap
     concat
     log
-    intc_2 // 1
+    intc_1 // 1
     return
 
 
 // smart_contracts.experiment_audit.contract.ExperimentAudit.get_experiment_box[routing]() -> void:
 get_experiment_box:
-    // smart_contracts/experiment_audit/contract.py:92
+    // smart_contracts/experiment_audit/contract.py:96
     // @abimethod()
     txna ApplicationArgs 1
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    intc_1 // 2
+    intc_2 // 2
     +
     dig 1
     len
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/experiment_audit/contract.py:104
+    // smart_contracts/experiment_audit/contract.py:108
     // return String.from_bytes(experiment_box.value)
     box_get
     assert // check Box exists
-    // smart_contracts/experiment_audit/contract.py:92
+    // smart_contracts/experiment_audit/contract.py:96
     // @abimethod()
     dup
     len
@@ -441,9 +483,71 @@ get_experiment_box:
     extract 6 2
     swap
     concat
-    bytec 5 // 0x151f7c75
+    bytec_0 // 0x151f7c75
     swap
     concat
     log
-    intc_2 // 1
+    intc_1 // 1
+    return
+
+
+// smart_contracts.experiment_audit.contract.ExperimentAudit.get_counter[routing]() -> void:
+get_counter:
+    // smart_contracts/experiment_audit/contract.py:112
+    // return self.experiment_counter
+    intc_0 // 0
+    bytec_1 // "experiment_counter"
+    app_global_get_ex
+    assert // check self.experiment_counter exists
+    // smart_contracts/experiment_audit/contract.py:110
+    // @abimethod()
+    itob
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
+    return
+
+
+// smart_contracts.experiment_audit.contract.ExperimentAudit.get_last_round[routing]() -> void:
+get_last_round:
+    // smart_contracts/experiment_audit/contract.py:116
+    // return self.last_round
+    intc_0 // 0
+    bytec 9 // "last_round"
+    app_global_get_ex
+    assert // check self.last_round exists
+    // smart_contracts/experiment_audit/contract.py:114
+    // @abimethod()
+    itob
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
+    return
+
+
+// smart_contracts.experiment_audit.contract.ExperimentAudit.get_last_author[routing]() -> void:
+get_last_author:
+    // smart_contracts/experiment_audit/contract.py:120
+    // return String.from_bytes(self.last_author)
+    intc_0 // 0
+    bytec 8 // "last_author"
+    app_global_get_ex
+    assert // check self.last_author exists
+    // smart_contracts/experiment_audit/contract.py:118
+    // @abimethod()
+    dup
+    len
+    itob
+    extract 6 2
+    swap
+    concat
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
     return

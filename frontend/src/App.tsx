@@ -9,8 +9,9 @@ function App() {
   const [timestamp, setTimestamp] = useState("");
 
   const [capturedExperiment, setCapturedExperiment] = useState<any>(null);
+  const [backendResponse, setBackendResponse] = useState<any>(null);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const experiment = {
       experimentId,
       resultsHash,
@@ -20,10 +21,27 @@ function App() {
     };
 
     console.log("Experiment to register:", experiment);
-
     setCapturedExperiment(experiment);
 
-    alert("Experiment data captured successfully!");
+    try {
+      const response = await fetch("http://127.0.0.1:5000/register-experiment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(experiment),
+      });
+
+      const result = await response.json();
+
+      console.log("Backend response:", result);
+      setBackendResponse(result);
+
+      alert("Experiment sent to backend successfully!");
+    } catch (error) {
+      console.error("Error sending experiment:", error);
+      alert("Error sending experiment to backend");
+    }
   };
 
   return (
@@ -36,8 +54,7 @@ function App() {
         </h1>
 
         <p className="subtitle">
-          Register experimental metadata and verify integrity through
-          blockchain.
+          Register experimental metadata and verify integrity through blockchain.
         </p>
 
         <div className="form">
@@ -75,18 +92,20 @@ function App() {
             onChange={(e) => setTimestamp(e.target.value)}
           />
 
-          <button onClick={handleSubmit}>
-            Register Experiment
-          </button>
+          <button onClick={handleSubmit}>Register Experiment</button>
         </div>
 
         {capturedExperiment && (
           <section className="preview">
             <h2>Captured Experiment Data</h2>
+            <pre>{JSON.stringify(capturedExperiment, null, 2)}</pre>
+          </section>
+        )}
 
-            <pre>
-              {JSON.stringify(capturedExperiment, null, 2)}
-            </pre>
+        {backendResponse && (
+          <section className="preview">
+            <h2>Backend Response</h2>
+            <pre>{JSON.stringify(backendResponse, null, 2)}</pre>
           </section>
         )}
       </section>
