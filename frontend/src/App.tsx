@@ -11,6 +11,28 @@ function App() {
   const [capturedExperiment, setCapturedExperiment] = useState<any>(null);
   const [backendResponse, setBackendResponse] = useState<any>(null);
 
+  const [summary, setSummary] = useState("");
+  const [counter, setCounter] = useState<number | null>(null);
+
+
+  const loadBlockchainData = async () => {
+    const summaryResponse = await fetch(
+      "http://127.0.0.1:5000/summary"
+    );
+
+    const summaryData = await summaryResponse.json();
+
+    setSummary(summaryData.summary);
+
+    const counterResponse = await fetch(
+      "http://127.0.0.1:5000/counter"
+    );
+
+    const counterData = await counterResponse.json();
+
+    setCounter(counterData.counter);
+  };
+
   const handleSubmit = async () => {
     const experiment = {
       experimentId,
@@ -37,7 +59,10 @@ function App() {
       console.log("Backend response:", result);
       setBackendResponse(result);
 
+      await loadBlockchainData();
+
       alert("Experiment sent to backend successfully!");
+
     } catch (error) {
       console.error("Error sending experiment:", error);
       alert("Error sending experiment to backend");
@@ -108,6 +133,25 @@ function App() {
             <pre>{JSON.stringify(backendResponse, null, 2)}</pre>
           </section>
         )}
+
+        {counter !== null && (
+          <section className="preview">
+            <h2>Blockchain Statistics</h2>
+
+            <p>
+              <strong>Total Registered Experiments:</strong> {counter}
+            </p>
+          </section>
+        )}
+
+        {summary && (
+          <section className="preview">
+            <h2>Latest Experiment Retrieved From Blockchain</h2>
+
+            <pre>{summary}</pre>
+          </section>
+        )}
+
       </section>
     </main>
   );

@@ -79,6 +79,21 @@ def summary():
         }
     )
 
+@app.route("/counter", methods=["GET"])
+def counter():
+    client = get_client()
+
+    result = client.send.get_counter()
+
+    return jsonify(
+        {
+            "status": "success",
+            "counter": result.abi_return,
+        }
+    )
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
+
+
