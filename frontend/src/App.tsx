@@ -59,7 +59,6 @@ function App() {
       console.log("Backend response:", result);
       setBackendResponse(result);
 
-      await loadBlockchainData();
 
       alert("Experiment sent to backend successfully!");
 
@@ -118,6 +117,8 @@ function App() {
           />
 
           <button onClick={handleSubmit}>Register Experiment</button>
+
+          <button onClick={loadBlockchainData}>Read The Last Experiment From Blockchain</button>
         </div>
 
         {capturedExperiment && (
@@ -134,6 +135,22 @@ function App() {
           </section>
         )}
 
+        {backendResponse && (
+          <button className="secondary-button" onClick={loadBlockchainData}>
+            Read From Blockchain
+          </button>
+        )}
+
+
+        {summary && (
+          <section className="preview">
+            <h2>Latest Experiment Retrieved From Blockchain</h2>
+
+            <pre>{summary}</pre>
+          </section>
+        )}
+
+
         {counter !== null && (
           <section className="preview">
             <h2>Blockchain Statistics</h2>
@@ -144,13 +161,6 @@ function App() {
           </section>
         )}
 
-        {summary && (
-          <section className="preview">
-            <h2>Latest Experiment Retrieved From Blockchain</h2>
-
-            <pre>{summary}</pre>
-          </section>
-        )}
 
       </section>
     </main>

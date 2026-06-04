@@ -83,3 +83,16 @@ button:hover {
   color: #cbd5e1;
   font-size: 0.95rem;
 }
+
+
+.secondary-button {
+  margin-top: 1.5rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid #60a5fa;
+  color: #bfdbfe;
+}
+
+.secondary-button:hover {
+  background: rgba(96, 165, 250, 0.12);
+}
