@@ -340,3 +340,7 @@ National Autonomous University of Mexico (UNAM)
 ## License
 
 This project was developed for educational and research purposes.
+
+## Acknowledgements
+
+See [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) for details about the tools, frameworks, documentation, and educational resources used during the development of this project.
