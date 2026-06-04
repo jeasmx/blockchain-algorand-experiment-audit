@@ -94,7 +94,7 @@ Artificial intelligence tools were used as development assistants during the pro
 - Frontend design suggestions
 - Debugging support
 
-All generated code, documentation, and project decisions were reviewed, tested, and validated by the project author before inclusion in the final implementation.
+All project decisions were reviewed, tested, and validated by the project author before inclusion in the final implementation.
 
 ---
 
