@@ -166,17 +166,32 @@ function App() {
         )}
 
         {backendResponse && (
-          <section className="preview">
-            <h2>Backend Response</h2>
-            <pre>{JSON.stringify(backendResponse, null, 2)}</pre>
+          <section className="transaction-card">
+            <h2>Transaction Submitted Successfully</h2>
+
+            <div className="transaction-row">
+              <span>Network</span>
+              <strong>Algorand TestNet</strong>
+            </div>
+
+            <div className="transaction-row">
+              <span>Application ID</span>
+              <strong>{backendResponse.app_id}</strong>
+            </div>
+
+            <div className="transaction-row">
+              <span>Status</span>
+              <strong>{backendResponse.status}</strong>
+            </div>
+
+            <div className="transaction-row">
+              <span>Transaction ID</span>
+              <code>{backendResponse.transaction_id}</code>
+            </div>
           </section>
         )}
 
-        {backendResponse && (
-          <button className="secondary-button" onClick={loadBlockchainData}>
-            Read From Blockchain
-          </button>
-        )}
+
 
         {boxExperiment && (
           <section className="preview">

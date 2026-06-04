@@ -112,3 +112,38 @@ button:hover {
   border: 1px solid #10b981;
   color: #d1fae5;
 }
+
+.transaction-card {
+  margin-top: 2rem;
+  text-align: left;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid #10b981;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.transaction-card h2 {
+  margin-top: 0;
+  color: #d1fae5;
+}
+
+.transaction-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.transaction-row span {
+  color: #a7f3d0;
+}
+
+.transaction-row strong {
+  color: #f8fafc;
+}
+
+.transaction-row code {
+  color: #bfdbfe;
+  word-break: break-all;
+}
