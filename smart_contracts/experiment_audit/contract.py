@@ -17,6 +17,7 @@ class ExperimentAudit(ARC4Contract):
         self.last_results_hash = String("NONE")
         self.last_throughput = String("0")
         self.last_collisions = String("0")
+        self.last_timestamp = String("NONE")
 
         self.last_author = Bytes(b"")
         self.last_round = UInt64(0)
@@ -49,6 +50,7 @@ class ExperimentAudit(ARC4Contract):
         self.last_collisions = collisions
         self.last_author = Txn.sender.bytes
         self.last_round = Global.round
+        self.last_timestamp = timestamp
 
         # Crear una Box usando el ID del experimento como llave
         box_name = experiment_id.bytes
@@ -87,6 +89,8 @@ class ExperimentAudit(ARC4Contract):
             + self.last_throughput
             + String(" | Collisions: ")
             + self.last_collisions
+            + String(" | Timestamp: ")
+            + self.last_timestamp
         )
 
     @abimethod()
@@ -102,3 +106,15 @@ class ExperimentAudit(ARC4Contract):
         experiment_box = Box(Bytes, key=box_name)
 
         return String.from_bytes(experiment_box.value)
+        
+    @abimethod()
+    def get_counter(self) -> UInt64:
+        return self.experiment_counter
+    
+    @abimethod()
+    def get_last_round(self) -> UInt64:
+        return self.last_round
+
+    @abimethod()
+    def get_last_author(self) -> String:
+        return String.from_bytes(self.last_author)
