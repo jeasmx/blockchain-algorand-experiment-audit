@@ -11,17 +11,18 @@ sys.path.append(str(ROOT_DIR / "smart_contracts" / "artifacts" / "experiment_aud
 from experiment_audit_client import ExperimentAuditClient  # noqa: E402
 
 
-APP_ID = 763925996  # Cambias por el App ID real
+APP_ID = 1065  # Cambias por el App ID real
 
 app = Flask(__name__)
 CORS(app)
 
 
 def get_client() -> ExperimentAuditClient:
-    algorand = AlgorandClient.testnet()
+    algorand = AlgorandClient.default_localnet()
 
     account = algorand.account.from_environment(
-        "DEPLOYER",
+        "JOSUE",
+        AlgoAmount(algo=100),
     )
 
     return ExperimentAuditClient(
