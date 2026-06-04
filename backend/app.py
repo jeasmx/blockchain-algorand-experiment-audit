@@ -92,6 +92,21 @@ def counter():
         }
     )
 
+@app.route("/experiment/<experiment_id>", methods=["GET"])
+def get_experiment(experiment_id):
+    client = get_client()
+
+    result = client.send.get_experiment_box(
+        args=(experiment_id,)
+    )
+
+    return jsonify(
+        {
+            "status": "success",
+            "experiment_id": experiment_id,
+            "box_data": result.abi_return,
+        }
+    )
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

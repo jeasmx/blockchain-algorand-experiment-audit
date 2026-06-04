@@ -14,6 +14,8 @@ function App() {
   const [summary, setSummary] = useState("");
   const [counter, setCounter] = useState<number | null>(null);
 
+  const [searchExperimentId, setSearchExperimentId] = useState("");
+  const [boxExperiment, setBoxExperiment] = useState<any>(null);
 
   const loadBlockchainData = async () => {
     const summaryResponse = await fetch(
@@ -32,6 +34,22 @@ function App() {
 
     setCounter(counterData.counter);
   };
+
+
+
+  const searchExperimentById = async () => {
+    const response = await fetch(
+      `http://127.0.0.1:5000/experiment/${searchExperimentId}`
+    );
+
+    const result = await response.json();
+
+    console.log("Box Storage response:", result);
+
+    setBoxExperiment(result);
+  };
+
+
 
   const handleSubmit = async () => {
     const experiment = {
@@ -121,6 +139,19 @@ function App() {
           <button onClick={loadBlockchainData}>Read The Last Experiment From Blockchain</button>
         </div>
 
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Experiment ID to search in Box Storage"
+            value={searchExperimentId}
+            onChange={(e) => setSearchExperimentId(e.target.value)}
+          />
+
+          <button onClick={searchExperimentById}>
+            Search Experiment in Box Storage
+          </button>
+        </div>
+
         {capturedExperiment && (
           <section className="preview">
             <h2>Captured Experiment Data</h2>
@@ -139,6 +170,14 @@ function App() {
           <button className="secondary-button" onClick={loadBlockchainData}>
             Read From Blockchain
           </button>
+        )}
+
+        {boxExperiment && (
+          <section className="preview">
+            <h2>Experiment Retrieved From Box Storage</h2>
+
+            <pre>{JSON.stringify(boxExperiment, null, 2)}</pre>
+          </section>
         )}
 
 
