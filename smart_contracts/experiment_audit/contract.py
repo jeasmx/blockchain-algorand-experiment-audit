@@ -6,24 +6,51 @@ class ExperimentAudit(ARC4Contract):
     """
     Smart contract para auditoría de resultados experimentales.
 
-    Mantiene el nombre HelloWorld para no romper la estructura
-    generada por AlgoKit, pero la lógica ya corresponde al proyecto.
+    El objetivo de este contrato es registrar metadatos asociados a
+    experimentos y almacenarlos de forma inmutable en la blockchain
+    de Algorand.
+
+    Se utilizan dos mecanismos de almacenamiento:
+
+    1. Global State:
+       Mantiene un resumen del experimento más reciente y estadísticas
+       generales de la aplicación.
+
+    2. Box Storage:
+       Permite almacenar y recuperar registros individuales utilizando
+       el identificador del experimento como llave.
     """
 
+
     def __init__(self) -> None:
+        """
+        Inicializa el estado global de la aplicación.
+
+        Estas variables permanecen almacenadas en la blockchain y son
+        actualizadas cada vez que se registra un nuevo experimento.
+        """
+
+        # Número total de experimentos registrados        
         self.experiment_counter = UInt64(0)
 
+        # Información del último experimento registrado
         self.last_experiment_id = String("NONE")
         self.last_results_hash = String("NONE")
         self.last_throughput = String("0")
         self.last_collisions = String("0")
         self.last_timestamp = String("NONE")
 
+        # Información blockchain asociada al último registro
         self.last_author = Bytes(b"")
         self.last_round = UInt64(0)
 
     @abimethod()
     def hello(self, name: String) -> String:
+        """
+        Método de ejemplo generado originalmente por AlgoKit.
+
+        Se conserva para validar la comunicación básica con el contrato.
+        """
         return String("Hello, ") + name
 
     @abimethod()
@@ -36,27 +63,51 @@ class ExperimentAudit(ARC4Contract):
         timestamp: String,
     ) -> String:
         """
-        Registra un experimento.
+        Registra un experimento en la blockchain.
 
-        Actualiza el Global State con el último experimento
-        y además guarda un registro completo en una Box.
+        Parámetros:
+        - experiment_id: identificador único del experimento.
+        - results_hash: hash criptográfico de los resultados.
+        - throughput: métrica de rendimiento obtenida.
+        - collisions: número de colisiones observadas.
+        - timestamp: fecha y hora asociadas al experimento.
+
+        Este método actualiza el Global State con la información más
+        reciente y además crea una entrada permanente en Box Storage.
         """
 
-        # Actualizar resumen global
+        # ---------------------------------------------------------
+        # Actualizar el resumen global del último experimento
+        # ---------------------------------------------------------
+
+        # Incrementar contador total de experimentos
         self.experiment_counter += 1
+
+        # Guardar información del experimento más reciente
         self.last_experiment_id = experiment_id
         self.last_results_hash = results_hash
         self.last_throughput = throughput
         self.last_collisions = collisions
-        self.last_author = Txn.sender.bytes
-        self.last_round = Global.round
         self.last_timestamp = timestamp
 
-        # Crear una Box usando el ID del experimento como llave
+        # Guardar metadatos propios de la blockchain
+        self.last_author = Txn.sender.bytes
+        self.last_round = Global.round
+
+        # ---------------------------------------------------------
+        # Crear una Box asociada al identificador del experimento
+        # ---------------------------------------------------------
+
+        # El nombre de la Box será el experiment_id
         box_name = experiment_id.bytes
         experiment_box = Box(Bytes, key=box_name)
 
-        # Guardar metadata estructurada y legible en la Box
+        # ---------------------------------------------------------
+        # Construir la información que se almacenará en la Box
+        # ---------------------------------------------------------
+
+        # Los datos se guardan como una cadena estructurada para
+        # facilitar su lectura desde el frontend y backend.
         experiment_data = (
             b"experiment_id="
             + experiment_id.bytes
@@ -69,7 +120,7 @@ class ExperimentAudit(ARC4Contract):
             + b";timestamp="
             + timestamp.bytes
         )
-
+        # Escribir información en Box Storage
         experiment_box.value = experiment_data
 
         return String("Experiment registered")
@@ -77,7 +128,10 @@ class ExperimentAudit(ARC4Contract):
     @abimethod()
     def get_experiment_summary(self) -> String:
         """
-        Regresa un resumen simple del último experimento registrado.
+        Recupera un resumen del último experimento registrado.
+
+        La información proviene del Global State y permite una consulta
+        rápida sin necesidad de acceder a Box Storage.
         """
 
         return (
@@ -99,7 +153,11 @@ class ExperimentAudit(ARC4Contract):
         experiment_id: String,
     ) -> String:
         """
-        Consulta el registro completo de un experimento desde Box Storage.
+        Recupera la información completa de un experimento desde
+        Box Storage.
+
+        Parámetro:
+        - experiment_id: identificador utilizado como llave de búsqueda.
         """
 
         box_name = experiment_id.bytes
@@ -109,12 +167,22 @@ class ExperimentAudit(ARC4Contract):
         
     @abimethod()
     def get_counter(self) -> UInt64:
+        """
+        Regresa el número total de experimentos registrados.
+        """
         return self.experiment_counter
     
     @abimethod()
     def get_last_round(self) -> UInt64:
+        """
+        Regresa el número de ronda de Algorand en la que se registró
+        el último experimento.
+        """
         return self.last_round
 
     @abimethod()
     def get_last_author(self) -> String:
+        """
+        Regresa la dirección de la cuenta que realizó el último registro.
+        """
         return String.from_bytes(self.last_author)
