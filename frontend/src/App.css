@@ -1,3 +1,7 @@
+/* ==========================================================
+   CONTENEDOR PRINCIPAL DE LA APLICACIÓN
+   ========================================================== */
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -8,11 +12,17 @@
   padding: 2rem;
 }
 
+/* ==========================================================
+   TARJETA PRINCIPAL QUE CONTIENE TODA LA INTERFAZ
+   ========================================================== */
+
 .card {
   width: 100%;
   max-width: 760px;
   text-align: center;
 }
+
+/* Título principal de la aplicación */
 
 .card h1 {
   font-size: 4rem;
@@ -24,17 +34,25 @@
   color: transparent;
 }
 
+/* Texto descriptivo debajo del título */
+
 .subtitle {
   color: #cbd5e1;
   margin-bottom: 2rem;
   font-size: 1.1rem;
 }
 
+/* ==========================================================
+   FORMULARIO DE REGISTRO DE EXPERIMENTOS
+   ========================================================== */
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
+/* Campos de captura de datos */
 
 input {
   padding: 1rem;
@@ -45,9 +63,17 @@ input {
   font-size: 1rem;
 }
 
+/* Color del texto placeholder */
+
 input::placeholder {
   color: #94a3b8;
 }
+
+/* ==========================================================
+   BOTONES PRINCIPALES
+   ========================================================== */
+
+/* Botón utilizado para registrar experimentos */
 
 button {
   padding: 1rem;
@@ -60,9 +86,18 @@ button {
   cursor: pointer;
 }
 
+/* Efecto visual al pasar el cursor */
+
 button:hover {
   opacity: 0.9;
 }
+
+/* ==========================================================
+   TARJETAS DE RESULTADOS Y RESPUESTAS
+   ========================================================== */
+
+/* Contenedor genérico para mostrar información obtenida
+   desde la blockchain o desde el backend */
 
 .preview {
   margin-top: 2rem;
@@ -73,10 +108,14 @@ button:hover {
   padding: 1rem;
 }
 
+/* Título interno de cada sección */
+
 .preview h2 {
   margin-top: 0;
   color: #f8fafc;
 }
+
+/* Visualización de respuestas JSON y texto estructurado */
 
 .preview pre {
   white-space: pre-wrap;
@@ -84,6 +123,14 @@ button:hover {
   font-size: 0.95rem;
 }
 
+/* ==========================================================
+   BOTONES SECUNDARIOS
+   ========================================================== */
+
+/* Utilizado para acciones como:
+   - Read From Blockchain
+   - Search Experiment
+*/
 
 .secondary-button {
   margin-top: 1.5rem;
@@ -93,9 +140,17 @@ button:hover {
   color: #bfdbfe;
 }
 
+/* Efecto hover para botones secundarios */
+
 .secondary-button:hover {
   background: rgba(96, 165, 250, 0.12);
 }
+
+/* ==========================================================
+   SECCIÓN DE BÚSQUEDA DE EXPERIMENTOS
+   ========================================================== */
+
+/* Agrupa el campo de búsqueda y el botón asociado */
 
 .search-box {
   margin-top: 1rem;
@@ -103,6 +158,13 @@ button:hover {
   flex-direction: column;
   gap: 1rem;
 }
+
+/* ==========================================================
+   INDICADOR DE RED BLOCKCHAIN
+   ========================================================== */
+
+/* Muestra información visible de la red utilizada
+   y el Application ID desplegado */
 
 .network-banner {
   margin-bottom: 1.5rem;
@@ -113,6 +175,14 @@ button:hover {
   color: #d1fae5;
 }
 
+
+/* ==========================================================
+   EVIDENCIA DE TRANSACCIÓN EN TESTNET
+   ========================================================== */
+
+/* Tarjeta mostrada después de registrar un experimento
+   exitosamente en Algorand TestNet */
+
 .transaction-card {
   margin-top: 2rem;
   text-align: left;
@@ -122,10 +192,16 @@ button:hover {
   padding: 1.25rem;
 }
 
+
+/* Título de la sección */
+
 .transaction-card h2 {
   margin-top: 0;
   color: #d1fae5;
 }
+
+/* Cada fila muestra un dato importante de la transacción:
+   Network, App ID, Status y Transaction ID */
 
 .transaction-row {
   display: flex;
@@ -135,13 +211,20 @@ button:hover {
   border-top: 1px solid rgba(16, 185, 129, 0.25);
 }
 
+
+/* Etiqueta descriptiva */
+
 .transaction-row span {
   color: #a7f3d0;
 }
 
+/* Valor principal */
+
 .transaction-row strong {
   color: #f8fafc;
 }
+
+/* Transaction ID mostrado en formato código */
 
 .transaction-row code {
   color: #bfdbfe;
